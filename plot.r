@@ -309,3 +309,59 @@ plotPoints <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, yTit
 
     noOut <- dev.off()
 }
+
+########################################
+
+plotSmoothLine <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfFile=NULL, pdfTitle="thillux plot") {
+    pdfFilePath = "hist.pdf"
+    if(!is.null(pdfFile)) {
+        pdfFilePath = pdfFile
+    }
+    pdf(pdfFilePath, pointsize=10, width=7, height=5, title = pdfTitle)
+
+    margins <- par()$mar
+    if(is.null(mainTitle)) {
+        margins[3] <- 1.0
+    }
+    if(is.null(xTitle)) {
+        margins[1] <- 2.5
+    }
+    if(is.null(yTitle)) {
+        margins[2] <- 2.5
+    }
+    margins[4] <- 1.0
+    par(mar=margins)
+
+    plot(dataArray1, dataArray2, ann=FALSE, type="n", bty="n", axes=FALSE, ylab='',
+      xlab='',
+      main='')
+
+    u <- par("usr")
+    rect(u[1], u[3], u[2], u[4], col = bgColor, border = FALSE)
+
+    par(col.lab=thillux_grey)
+
+    grid(col=thillux_grey, lty=3, lwd=0.5)
+
+    par(new=TRUE)
+
+    plot(smooth.spline(dataArray1, dataArray2),
+      type="l",
+      axes=FALSE,
+      col=borderColor,
+      bg=color,
+      ylab='',
+      xlab='',
+      main=NULL,
+      lty=1,
+      pch=21,
+      cex=1,
+      lwd=1)
+
+    box(col = thillux_grey, bty="l")
+    title(main=mainTitle, col=thillux_grey, xlab=xTitle, ylab=yTitle)
+    axis(1, col="#00000000", col.axis = thillux_grey, col.ticks = thillux_grey)
+    axis(2, col="#00000000", col.axis = thillux_grey, col.ticks = thillux_grey)
+
+    noOut <- dev.off()
+}
