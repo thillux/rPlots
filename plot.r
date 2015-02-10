@@ -365,3 +365,76 @@ plotSmoothLine <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, 
 
     noOut <- dev.off()
 }
+
+plotWithConfidence <- function(xData, yData, e, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfFile=NULL, pdfTitle="thillux plot") {
+    pdfFilePath = "hist.pdf"
+    if(!is.null(pdfFile)) {
+      pdfFilePath = pdfFile
+    }
+    pdf(pdfFilePath, pointsize=10, width=7, height=5, title = pdfTitle)
+
+    margins <- par()$mar
+    if(is.null(mainTitle)) {
+      margins[3] <- 1.0
+    }
+    if(is.null(xTitle)) {
+      margins[1] <- 2.5
+    }
+    if(is.null(yTitle)) {
+      margins[2] <- 2.5
+    }
+    margins[4] <- 1.0
+    par(mar=margins)
+
+    xLim <- range(x) + c(-0.1,0.1)
+    yLim <- range(c(y+e,y-e)) + c(-0.1,0.1)
+
+    plot(xData, yData, ann=FALSE, type="n", bty="n", axes=FALSE, ylab='',
+    xlab='',
+    main='',
+    xlim=xLim,
+    ylim=yLim)
+
+    u <- par("usr")
+    rect(u[1], u[3], u[2], u[4], col = bgColor, border = FALSE)
+
+    par(col.lab=thillux_grey)
+
+    grid(col=thillux_grey, lty=3, lwd=0.5)
+
+    par(new=TRUE)
+
+    plot(xData, yData,
+    type="p",
+    axes=FALSE,
+    col=borderColor,
+    bg=color,
+    ylab='',
+    xlab='',
+    main=NULL,
+    lty=1,
+    pch=20,
+    cex=1,
+    lwd=1,,
+    xlim=xLim,
+    ylim=yLim)
+
+    widthToInch = 96.0
+    arrowLength = 0.1
+
+    arrows(xData,yData-e,xData,yData+e,lend=1,angle=90,code=3, col="#E7746F",xlim=xLim,
+    ylim=yLim, length=arrowLength)
+    arrows(xData,yData-e,xData,yData+e,lend=1,angle=90,code=0, col="#E7746F5F",xlim=xLim,
+    ylim=yLim, lwd=2*arrowLength*widthToInch)
+
+    frame <- data.frame(xData,yData)
+    frame <- frame[order(xData),]
+    lines(frame$xData, frame$yData, col=color,lty=2)
+
+    box(col = thillux_grey, bty="l")
+    title(main=mainTitle, col=thillux_grey, xlab=xTitle, ylab=yTitle)
+    axis(1, col="#00000000", col.axis = thillux_grey, col.ticks = thillux_grey)
+    axis(2, col="#00000000", col.axis = thillux_grey, col.ticks = thillux_grey)
+
+    noOut <- dev.off()
+}
