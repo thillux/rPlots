@@ -404,28 +404,24 @@ plotWithConfidence <- function(xData, yData, e, mainTitle=NULL, xTitle=NULL, yTi
 
     par(new=TRUE)
 
-    plot(xData, yData,
-    type="p",
-    axes=FALSE,
-    col=borderColor,
-    bg=color,
-    ylab='',
-    xlab='',
-    main=NULL,
-    lty=1,
-    pch=20,
-    cex=1,
-    lwd=1,,
-    xlim=xLim,
-    ylim=yLim)
-
     widthToInch = 96.0
-    arrowLength = 0.1
+    arrowLength = diff(range(xData))/20.0
 
-    arrows(xData,yData-e,xData,yData+e,lend=1,angle=90,code=3, col="#E7746F",xlim=xLim,
-    ylim=yLim, length=arrowLength)
-    arrows(xData,yData-e,xData,yData+e,lend=1,angle=90,code=0, col="#E7746F5F",xlim=xLim,
-    ylim=yLim, lwd=2*arrowLength*widthToInch)
+    rect(xData-arrowLength,y-e,xData+arrowLength,y+e,col=color, border=FALSE)
+
+    arrowTipLength = pmin(e/2.0, arrowLength/3.0)
+
+    segments(xData-arrowLength, y-e, xData-arrowLength, y-e+arrowTipLength, lend=1, col="#E7746F")
+    segments(xData-arrowLength, y+e, xData-arrowLength, y+e-arrowTipLength, lend=1, col="#E7746F")
+    segments(xData+arrowLength, y-e, xData+arrowLength, y-e+arrowTipLength, lend=1, col="#E7746F")
+    segments(xData+arrowLength, y+e, xData+arrowLength, y+e-arrowTipLength, lend=1, col="#E7746F")
+
+    segments(xData-arrowLength, y-e, xData+arrowLength, y-e, lend=1, col="#E7746F")
+    segments(xData-arrowLength, y+e, xData+arrowLength, y+e, lend=1, col="#E7746F")
+
+    segments(xData, y-arrowTipLength, xData, y+arrowTipLength, lend=1, col="#E7746F")
+
+    segments(xData-arrowLength/2.0,yData, xData+arrowLength/2.0,yData, col="#E7746F")
 
     frame <- data.frame(xData,yData)
     frame <- frame[order(xData),]
