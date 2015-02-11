@@ -1,15 +1,7 @@
 source("colors.r")
 
-########################################
-
-plotHistogram <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfFile=NULL, pdfTitle="thillux plot", breaks = 10) {
-    pdfFilePath <- "hist.pdf"
-    if(!is.null(pdfFile)) {
-        pdfFilePath <- pdfFile
-    }
-    pdf(pdfFilePath, pointsize=10, width=7, height=5, title = pdfTitle)
-
-    margins <- par()$mar
+doMargins <- function(mainTitle, xTitle, yTitle) {
+  margins <- par()$mar
     if(is.null(mainTitle)) {
         margins[3] <- 1.0
     }
@@ -21,17 +13,47 @@ plotHistogram <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=NULL, p
     }
     margins[4] <- 1.0
     par(mar=margins)
+}
+
+################################################################################
+
+doBoxTitleAndAxes <- function(mainTitle, xTitle, yTitle) {
+  box(col = thillux_grey[1], bty="l")
+  title(main=mainTitle, col=thillux_grey[1], xlab=xTitle, ylab=yTitle)
+  axis(1, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
+  axis(2, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
+}
+
+################################################################################
+
+doOpenPDF <- function(pdfFile, pdfTitle) {
+  pdfFilePath = "out.pdf"
+  if(!is.null(pdfFile)) {
+    pdfFilePath = pdfFile
+  }
+  pdf(pdfFilePath, pointsize=10, width=7, height=5, title = pdfTitle)
+}
+
+################################################################################
+
+doPlotBackgroundAndGrid <- function() {
+  u <- par("usr")
+  rect(u[1], u[3], u[2], u[4], col = bgColor, border = FALSE)
+  par(col.lab=thillux_grey[1])
+  grid(col=thillux_grey[1], lty=3, lwd=0.5)
+}
+
+################################################################################
+
+plotHistogram <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfFile=NULL, pdfTitle="thillux plot", breaks = 10) {
+    doOpenPDF(pdfFile, pdfTitle)
+    doMargins(mainTitle, xTitle, yTitle)
 
     h <- hist(dataArray, plot=FALSE, breaks=breaks)
     plot(h$mids, h$counts, ylim = c(0, max(h$counts)), xlim = c(min(h$mids) * 0.9, max(h$mids) * 1.1),
     type = 'n', bty = 'n', ann=FALSE, axes=FALSE)
 
-    u <- par("usr")
-    rect(u[1], u[3], u[2], u[4], col = bgColor, border = FALSE)
-
-    par(col.lab=thillux_grey[1])
-
-    grid(col=thillux_grey[1], lty=3, lwd=0.5)
+    doPlotBackgroundAndGrid()
 
     hist(dataArray,
       add=TRUE,
@@ -44,10 +66,8 @@ plotHistogram <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=NULL, p
       breaks=breaks,
       lty=1,
       cex=1)
-    box(col = thillux_grey[1], bty="l")
-    title(main=mainTitle, col=thillux_grey[1], xlab=xTitle, ylab=yTitle)
-    axis(1, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
-    axis(2, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
+
+    doBoxTitleAndAxes(mainTitle, xTitle, yTitle)
 
     noOut <- dev.off()
 }
@@ -55,36 +75,15 @@ plotHistogram <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=NULL, p
 ########################################
 
 plotHistogramNormal <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfFile=NULL, pdfTitle="thillux plot", breaks = 10) {
-    pdfFilePath <- "hist.pdf"
-    if(!is.null(pdfFile)) {
-        pdfFilePath <- pdfFile
-    }
-    pdf(pdfFilePath, pointsize=10, width=7, height=5, title = pdfTitle)
-
-    margins <- par()$mar
-    if(is.null(mainTitle)) {
-        margins[3] <- 1.0
-    }
-    if(is.null(xTitle)) {
-        margins[1] <- 2.5
-    }
-    if(is.null(yTitle)) {
-        margins[2] <- 2.5
-    }
-    margins[4] <- 1.0
-    par(mar=margins)
+    doOpenPDF(pdfFile, pdfTitle)
+    doMargins(mainTitle, xTitle, yTitle)
 
     h <- hist(dataArray, plot=FALSE, breaks=breaks)
     h$counts <- h$counts/sum(h$counts)
     plot(h$mids, h$counts, ylim = c(0, max(h$counts)), xlim = c(min(h$mids) * 0.9, max(h$mids) * 1.1),
     type = 'n', bty = 'n', ann=FALSE, axes=FALSE)
 
-    u <- par("usr")
-    rect(u[1], u[3], u[2], u[4], col = bgColor, border = FALSE)
-
-    par(col.lab=thillux_grey[1])
-
-    grid(col=thillux_grey[1], lty=3, lwd=0.5)
+    doPlotBackgroundAndGrid()
 
     hist(dataArray,
       add=TRUE,
@@ -123,10 +122,7 @@ plotHistogramNormal <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=N
             main=''
     )
 
-    box(col = thillux_grey[1], bty="l")
-    title(main=mainTitle, col=thillux_grey[1], xlab=xTitle, ylab=yTitle)
-    axis(1, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
-    axis(2, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
+    doBoxTitleAndAxes(mainTitle, xTitle, yTitle)
 
     noOut <- dev.off()
 }
@@ -134,36 +130,15 @@ plotHistogramNormal <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=N
 ########################################
 
 plotQQNormal <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfFile=NULL, pdfTitle="thillux plot") {
-    pdfFilePath = "hist.pdf"
-    if(!is.null(pdfFile)) {
-        pdfFilePath = pdfFile
-    }
-    pdf(pdfFilePath, pointsize=10, width=7, height=5, title = pdfTitle)
-
-    margins <- par()$mar
-    if(is.null(mainTitle)) {
-        margins[3] <- 1.0
-    }
-    if(is.null(xTitle)) {
-        margins[1] <- 2.5
-    }
-    if(is.null(yTitle)) {
-        margins[2] <- 2.5
-    }
-    margins[4] <- 1.0
-    par(mar=margins)
+    doOpenPDF(pdfFile, pdfTitle)
+    doMargins(mainTitle, xTitle, yTitle)
 
     plot(qqnorm(dataArray, plot.it=FALSE, ylab='',
       xlab=''), ann=FALSE, type="n", bty="n", axes=FALSE, ylab='',
       xlab='',
       main='');
 
-    u <- par("usr")
-    rect(u[1], u[3], u[2], u[4], col = bgColor, border = FALSE)
-
-    par(col.lab=thillux_grey[1])
-
-    grid(col=thillux_grey[1], lty=3, lwd=0.5)
+    doPlotBackgroundAndGrid()
 
     qqline(sort(dataArray), ylab='',
       xlab='', col=colorScheme[2,2], lwd=2)
@@ -186,10 +161,7 @@ plotQQNormal <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pd
       cex=1,
       lwd=1)
 
-    box(col = thillux_grey[1], bty="l")
-    title(main=mainTitle, col=thillux_grey[1], xlab=xTitle, ylab=yTitle)
-    axis(1, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
-    axis(2, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
+    doBoxTitleAndAxes(mainTitle, xTitle, yTitle)
 
     noOut <- dev.off()
 }
@@ -197,36 +169,15 @@ plotQQNormal <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pd
 ########################################
 
 plotQQ <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfFile=NULL, pdfTitle="thillux plot") {
-    pdfFilePath = "hist.pdf"
-    if(!is.null(pdfFile)) {
-        pdfFilePath = pdfFile
-    }
-    pdf(pdfFilePath, pointsize=10, width=7, height=5, title = pdfTitle)
-
-    margins <- par()$mar
-    if(is.null(mainTitle)) {
-        margins[3] <- 1.0
-    }
-    if(is.null(xTitle)) {
-        margins[1] <- 2.5
-    }
-    if(is.null(yTitle)) {
-        margins[2] <- 2.5
-    }
-    margins[4] <- 1.0
-    par(mar=margins)
+    doOpenPDF(pdfFile, pdfTitle)
+    doMargins(mainTitle, xTitle, yTitle)
 
     plot(qqplot(dataArray1, dataArray2, plot.it=FALSE, ylab='',
       xlab=''), ann=FALSE, type="n", bty="n", axes=FALSE, ylab='',
       xlab='',
       main='');
 
-    u <- par("usr")
-    rect(u[1], u[3], u[2], u[4], col = bgColor, border = FALSE)
-
-    par(col.lab=thillux_grey[1])
-
-    grid(col=thillux_grey[1], lty=3, lwd=0.5)
+    doPlotBackgroundAndGrid()
 
     par(new=TRUE)
 
@@ -246,10 +197,7 @@ plotQQ <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, yTitle=N
       cex=1,
       lwd=1)
 
-    box(col = thillux_grey[1], bty="l")
-    title(main=mainTitle, col=thillux_grey[1], xlab=xTitle, ylab=yTitle)
-    axis(1, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
-    axis(2, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
+    doBoxTitleAndAxes(mainTitle, xTitle, yTitle)
 
     noOut <- dev.off()
 }
@@ -257,35 +205,14 @@ plotQQ <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, yTitle=N
 ########################################
 
 plotPoints <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfFile=NULL, pdfTitle="thillux plot") {
-    pdfFilePath = "hist.pdf"
-    if(!is.null(pdfFile)) {
-        pdfFilePath = pdfFile
-    }
-    pdf(pdfFilePath, pointsize=10, width=7, height=5, title = pdfTitle)
-
-    margins <- par()$mar
-    if(is.null(mainTitle)) {
-        margins[3] <- 1.0
-    }
-    if(is.null(xTitle)) {
-        margins[1] <- 2.5
-    }
-    if(is.null(yTitle)) {
-        margins[2] <- 2.5
-    }
-    margins[4] <- 1.0
-    par(mar=margins)
+    doOpenPDF(pdfFile, pdfTitle)
+    doMargins(mainTitle, xTitle, yTitle)
 
     plot(dataArray1, dataArray2, ann=FALSE, type="n", bty="n", axes=FALSE, ylab='',
       xlab='',
       main='')
 
-    u <- par("usr")
-    rect(u[1], u[3], u[2], u[4], col = bgColor, border = FALSE)
-
-    par(col.lab=thillux_grey[1])
-
-    grid(col=thillux_grey[1], lty=3, lwd=0.5)
+    doPlotBackgroundAndGrid()
 
     par(new=TRUE)
 
@@ -302,10 +229,7 @@ plotPoints <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, yTit
       cex=1,
       lwd=1)
 
-    box(col = thillux_grey[1], bty="l")
-    title(main=mainTitle, col=thillux_grey[1], xlab=xTitle, ylab=yTitle)
-    axis(1, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
-    axis(2, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
+    doBoxTitleAndAxes(mainTitle, xTitle, yTitle)
 
     noOut <- dev.off()
 }
@@ -313,35 +237,14 @@ plotPoints <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, yTit
 ########################################
 
 plotSmoothLine <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfFile=NULL, pdfTitle="thillux plot") {
-    pdfFilePath = "hist.pdf"
-    if(!is.null(pdfFile)) {
-        pdfFilePath = pdfFile
-    }
-    pdf(pdfFilePath, pointsize=10, width=7, height=5, title = pdfTitle)
-
-    margins <- par()$mar
-    if(is.null(mainTitle)) {
-        margins[3] <- 1.0
-    }
-    if(is.null(xTitle)) {
-        margins[1] <- 2.5
-    }
-    if(is.null(yTitle)) {
-        margins[2] <- 2.5
-    }
-    margins[4] <- 1.0
-    par(mar=margins)
+    doOpenPDF(pdfFile, pdfTitle)
+    doMargins(mainTitle, xTitle, yTitle)
 
     plot(dataArray1, dataArray2, ann=FALSE, type="n", bty="n", axes=FALSE, ylab='',
       xlab='',
       main='')
 
-    u <- par("usr")
-    rect(u[1], u[3], u[2], u[4], col = bgColor, border = FALSE)
-
-    par(col.lab=thillux_grey[1])
-
-    grid(col=thillux_grey[1], lty=3, lwd=0.5)
+    doPlotBackgroundAndGrid()
 
     par(new=TRUE)
 
@@ -358,10 +261,7 @@ plotSmoothLine <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, 
       cex=1,
       lwd=1)
 
-    box(col = thillux_grey[1], bty="l")
-    title(main=mainTitle, col=thillux_grey[1], xlab=xTitle, ylab=yTitle)
-    axis(1, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
-    axis(2, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
+    doBoxTitleAndAxes(mainTitle, xTitle, yTitle)
 
     noOut <- dev.off()
 }
@@ -369,24 +269,8 @@ plotSmoothLine <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, 
 ################################################################################
 
 plotWithConfidence <- function(xData, yData, e, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfFile=NULL, pdfTitle="thillux plot", connectionLines=FALSE) {
-    pdfFilePath = "hist.pdf"
-    if(!is.null(pdfFile)) {
-      pdfFilePath = pdfFile
-    }
-    pdf(pdfFilePath, pointsize=10, width=7, height=5, title = pdfTitle)
-
-    margins <- par()$mar
-    if(is.null(mainTitle)) {
-      margins[3] <- 1.0
-    }
-    if(is.null(xTitle)) {
-      margins[1] <- 2.5
-    }
-    if(is.null(yTitle)) {
-      margins[2] <- 2.5
-    }
-    margins[4] <- 1.0
-    par(mar=margins)
+    doOpenPDF(pdfFile, pdfTitle)
+    doMargins(mainTitle, xTitle, yTitle)
 
     xLim <- range(xData) + c(-0.1,0.1)
     yLim <- range(c(yData+e,yData-e)) + c(-0.1,0.1)
@@ -397,12 +281,7 @@ plotWithConfidence <- function(xData, yData, e, mainTitle=NULL, xTitle=NULL, yTi
     xlim=xLim,
     ylim=yLim)
 
-    u <- par("usr")
-    rect(u[1], u[3], u[2], u[4], col = bgColor, border = FALSE)
-
-    par(col.lab=thillux_grey[1])
-
-    grid(col=thillux_grey[1], lty=3, lwd=0.5)
+    doPlotBackgroundAndGrid()
 
     par(new=TRUE)
 
@@ -464,10 +343,38 @@ plotWithConfidence <- function(xData, yData, e, mainTitle=NULL, xTitle=NULL, yTi
       polygon(c(xCircle3, xCircle4), c(yCircle3, yCircle4), col = colorScheme[1,2], border = FALSE)
     }
 
-    box(col = thillux_grey[1], bty="l")
-    title(main=mainTitle, col=thillux_grey[1], xlab=xTitle, ylab=yTitle)
-    axis(1, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
-    axis(2, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
+    doBoxTitleAndAxes(mainTitle, xTitle, yTitle)
+
+    noOut <- dev.off()
+}
+
+################################################################################
+
+plotWithConfidenceContinous <- function(xData, yData, e, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfFile=NULL, pdfTitle="thillux plot", connectionLines=FALSE) {
+    doOpenPDF(pdfFile, pdfTitle)
+    doMargins(mainTitle, xTitle, yTitle)
+
+    xLim <- range(xData) + c(-0.1,0.1)
+    yLim <- range(c(yData + e, yData - e)) + c(-0.1,0.1)
+
+    plot(xData, yData, ann=FALSE, type="n", bty="n", axes=FALSE, ylab='',
+    xlab='',
+    main='',
+    xlim=xLim,
+    ylim=yLim)
+
+    doPlotBackgroundAndGrid()
+
+    par(new=TRUE)
+
+    polygon(c(sort(xData),rev(sort(xData))),c(yData + e, rev(yData-e)), col=colorScheme[1,2], border=FALSE)
+
+    lines(xData, yData + e, col=colorScheme[1,1])
+    lines(xData, yData - e, col=colorScheme[1,1])
+
+    lines(xData,yData,col=colorScheme[2,1])
+
+    doBoxTitleAndAxes(mainTitle, xTitle, yTitle)
 
     noOut <- dev.off()
 }
@@ -475,24 +382,8 @@ plotWithConfidence <- function(xData, yData, e, mainTitle=NULL, xTitle=NULL, yTi
 ################################################################################
 
 plotBox <- function(xData, yData, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfFile=NULL, pdfTitle="thillux plot", breaks=10) {
-    pdfFilePath = "hist.pdf"
-    if(!is.null(pdfFile)) {
-        pdfFilePath = pdfFile
-    }
-    pdf(pdfFilePath, pointsize=10, width=7, height=5, title = pdfTitle)
-
-    margins <- par()$mar
-    if(is.null(mainTitle)) {
-        margins[3] <- 1.0
-    }
-    if(is.null(xTitle)) {
-        margins[1] <- 2.5
-    }
-    if(is.null(yTitle)) {
-        margins[2] <- 2.5
-    }
-    margins[4] <- 1.0
-    par(mar=margins)
+    doOpenPDF(pdfFile, pdfTitle)
+    doMargins(mainTitle, xTitle, yTitle)
 
     plot(cut(xData, breaks=breaks), yData, ann=FALSE, type="n", bty="n", axes=FALSE, ylab='',
       xlab='',
@@ -501,19 +392,14 @@ plotBox <- function(xData, yData, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfF
       bg="#00000000",
       main='')
 
-    u <- par("usr")
-    rect(u[1], u[3], u[2], u[4], col = bgColor, border = FALSE)
-
-    par(col.lab=thillux_grey[1])
-
-    grid(col=thillux_grey[1], lty=3, lwd=0.5)
+    doPlotBackgroundAndGrid()
 
     par(new=TRUE)
 
     plot(cut(xData, breaks=breaks), yData,
       type="l",
       axes=FALSE,
-      col=colorScheme[1,2],
+      col=thillux_grey[2],
       bg=colorScheme[1,2],
       border=colorScheme[1,1],
       ylab='',
@@ -524,10 +410,7 @@ plotBox <- function(xData, yData, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfF
       cex=1,
       lwd=1)
 
-    box(col = thillux_grey[1], bty="l")
-    title(main=mainTitle, col=thillux_grey[1], xlab=xTitle, ylab=yTitle)
-    axis(1, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
-    axis(2, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
+    doBoxTitleAndAxes(mainTitle, xTitle, yTitle)
 
     noOut <- dev.off()
 }

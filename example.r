@@ -20,5 +20,27 @@ doBoxPlot <- function() {
     plotBox(x, y, pdfFile="box.pdf")
 }
 
+doConfidenceContinous <- function() {
+    x1 <- seq(0,10,0.01)
+    x <- x1
+    for (i in 1:31) {
+        x <- c(x,x1)
+    }
+
+    numPoints <- length(x)
+
+    y <- x*x + rnorm(numPoints)
+
+    outMean <- tapply(y, x, mean)
+    outSD <- tapply(y, x, sd)
+    out <- data.frame(x=names(outMean), mean=outMean, sd=outSD, row.names=NULL)
+
+    confLevel <- 0.995
+    numReplications <- 32
+
+    plotWithConfidenceContinous(x1, out$mean, 10.0 * qnorm(confLevel)*out$sd/sqrt(numReplications), pdfFile="confContinous.pdf")
+}
+
 doConfidence()
 doBoxPlot()
+doConfidenceContinous()
