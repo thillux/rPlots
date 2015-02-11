@@ -29,25 +29,25 @@ plotHistogram <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=NULL, p
     u <- par("usr")
     rect(u[1], u[3], u[2], u[4], col = bgColor, border = FALSE)
 
-    par(col.lab=thillux_grey)
+    par(col.lab=thillux_grey[1])
 
-    grid(col=thillux_grey, lty=3, lwd=0.5)
+    grid(col=thillux_grey[1], lty=3, lwd=0.5)
 
     hist(dataArray,
       add=TRUE,
       axes=FALSE,
-      col=color,
-      border=borderColor,
+      col=colorScheme[1,2],
+      border=colorScheme[1,1],
       ylab='',
       xlab='',
       main='',
       breaks=breaks,
       lty=1,
       cex=1)
-    box(col = thillux_grey, bty="l")
-    title(main=mainTitle, col=thillux_grey, xlab=xTitle, ylab=yTitle)
-    axis(1, col="#00000000", col.axis = thillux_grey, col.ticks = thillux_grey)
-    axis(2, col="#00000000", col.axis = thillux_grey, col.ticks = thillux_grey)
+    box(col = thillux_grey[1], bty="l")
+    title(main=mainTitle, col=thillux_grey[1], xlab=xTitle, ylab=yTitle)
+    axis(1, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
+    axis(2, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
 
     noOut <- dev.off()
 }
@@ -82,15 +82,15 @@ plotHistogramNormal <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=N
     u <- par("usr")
     rect(u[1], u[3], u[2], u[4], col = bgColor, border = FALSE)
 
-    par(col.lab=thillux_grey)
+    par(col.lab=thillux_grey[1])
 
-    grid(col=thillux_grey, lty=3, lwd=0.5)
+    grid(col=thillux_grey[1], lty=3, lwd=0.5)
 
     hist(dataArray,
       add=TRUE,
       axes=FALSE,
-      col=color,
-      border=borderColor,
+      col=colorScheme[1,2],
+      border=colorScheme[1,1],
       ylab='',
       xlab='',
       main='',
@@ -108,7 +108,7 @@ plotHistogramNormal <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=N
          type="l",
          lwd=3,
          axes=FALSE,
-         col=thillux_green,
+         col=colorScheme[2,2],
          xlim = c(min(h$mids) * 0.9, max(h$mids) * 1.1),
          ylab='',
          xlab='',
@@ -116,17 +116,17 @@ plotHistogramNormal <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=N
     )
 
     polygon(x, y,
-            col=thillux_green,
-            border="#4ACAA8",
+            col=colorScheme[2,2],
+            border=colorScheme[2][1],
             ylab='',
             xlab='',
             main=''
     )
 
-    box(col = thillux_grey, bty="l")
-    title(main=mainTitle, col=thillux_grey, xlab=xTitle, ylab=yTitle)
-    axis(1, col="#00000000", col.axis = thillux_grey, col.ticks = thillux_grey)
-    axis(2, col="#00000000", col.axis = thillux_grey, col.ticks = thillux_grey)
+    box(col = thillux_grey[1], bty="l")
+    title(main=mainTitle, col=thillux_grey[1], xlab=xTitle, ylab=yTitle)
+    axis(1, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
+    axis(2, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
 
     noOut <- dev.off()
 }
@@ -161,12 +161,12 @@ plotQQNormal <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pd
     u <- par("usr")
     rect(u[1], u[3], u[2], u[4], col = bgColor, border = FALSE)
 
-    par(col.lab=thillux_grey)
+    par(col.lab=thillux_grey[1])
 
-    grid(col=thillux_grey, lty=3, lwd=0.5)
+    grid(col=thillux_grey[1], lty=3, lwd=0.5)
 
     qqline(sort(dataArray), ylab='',
-      xlab='', col=thillux_green, lwd=2)
+      xlab='', col=colorScheme[2,2], lwd=2)
 
     par(new=TRUE)
 
@@ -176,8 +176,8 @@ plotQQNormal <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pd
     plot(qq$x, qq$y,
       type="b",
       axes=FALSE,
-      col=borderColor,
-      bg=color,
+      col=colorScheme[1,2],
+      bg=colorScheme[1,1],
       ylab='',
       xlab='',
       main=NULL,
@@ -186,10 +186,10 @@ plotQQNormal <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pd
       cex=1,
       lwd=1)
 
-    box(col = thillux_grey, bty="l")
-    title(main=mainTitle, col=thillux_grey, xlab=xTitle, ylab=yTitle)
-    axis(1, col="#00000000", col.axis = thillux_grey, col.ticks = thillux_grey)
-    axis(2, col="#00000000", col.axis = thillux_grey, col.ticks = thillux_grey)
+    box(col = thillux_grey[1], bty="l")
+    title(main=mainTitle, col=thillux_grey[1], xlab=xTitle, ylab=yTitle)
+    axis(1, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
+    axis(2, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
 
     noOut <- dev.off()
 }
@@ -224,9 +224,9 @@ plotQQ <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, yTitle=N
     u <- par("usr")
     rect(u[1], u[3], u[2], u[4], col = bgColor, border = FALSE)
 
-    par(col.lab=thillux_grey)
+    par(col.lab=thillux_grey[1])
 
-    grid(col=thillux_grey, lty=3, lwd=0.5)
+    grid(col=thillux_grey[1], lty=3, lwd=0.5)
 
     par(new=TRUE)
 
@@ -236,8 +236,8 @@ plotQQ <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, yTitle=N
     plot(qq$x, qq$y,
       type="b",
       axes=FALSE,
-      col=borderColor,
-      bg=color,
+      col=colorScheme[1,2],
+      bg=colorScheme[1,1],
       ylab='',
       xlab='',
       main=NULL,
@@ -246,10 +246,10 @@ plotQQ <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, yTitle=N
       cex=1,
       lwd=1)
 
-    box(col = thillux_grey, bty="l")
-    title(main=mainTitle, col=thillux_grey, xlab=xTitle, ylab=yTitle)
-    axis(1, col="#00000000", col.axis = thillux_grey, col.ticks = thillux_grey)
-    axis(2, col="#00000000", col.axis = thillux_grey, col.ticks = thillux_grey)
+    box(col = thillux_grey[1], bty="l")
+    title(main=mainTitle, col=thillux_grey[1], xlab=xTitle, ylab=yTitle)
+    axis(1, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
+    axis(2, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
 
     noOut <- dev.off()
 }
@@ -283,17 +283,17 @@ plotPoints <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, yTit
     u <- par("usr")
     rect(u[1], u[3], u[2], u[4], col = bgColor, border = FALSE)
 
-    par(col.lab=thillux_grey)
+    par(col.lab=thillux_grey[1])
 
-    grid(col=thillux_grey, lty=3, lwd=0.5)
+    grid(col=thillux_grey[1], lty=3, lwd=0.5)
 
     par(new=TRUE)
 
     plot(dataArray1, dataArray2,
       type="p",
       axes=FALSE,
-      col=borderColor,
-      bg=color,
+      col=colorScheme[1,2],
+      bg=colorScheme[1,1],
       ylab='',
       xlab='',
       main=NULL,
@@ -302,10 +302,10 @@ plotPoints <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, yTit
       cex=1,
       lwd=1)
 
-    box(col = thillux_grey, bty="l")
-    title(main=mainTitle, col=thillux_grey, xlab=xTitle, ylab=yTitle)
-    axis(1, col="#00000000", col.axis = thillux_grey, col.ticks = thillux_grey)
-    axis(2, col="#00000000", col.axis = thillux_grey, col.ticks = thillux_grey)
+    box(col = thillux_grey[1], bty="l")
+    title(main=mainTitle, col=thillux_grey[1], xlab=xTitle, ylab=yTitle)
+    axis(1, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
+    axis(2, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
 
     noOut <- dev.off()
 }
@@ -339,17 +339,17 @@ plotSmoothLine <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, 
     u <- par("usr")
     rect(u[1], u[3], u[2], u[4], col = bgColor, border = FALSE)
 
-    par(col.lab=thillux_grey)
+    par(col.lab=thillux_grey[1])
 
-    grid(col=thillux_grey, lty=3, lwd=0.5)
+    grid(col=thillux_grey[1], lty=3, lwd=0.5)
 
     par(new=TRUE)
 
     plot(smooth.spline(dataArray1, dataArray2),
       type="l",
       axes=FALSE,
-      col=borderColor,
-      bg=color,
+      col=colorScheme[1,2],
+      bg=colorScheme[1,1],
       ylab='',
       xlab='',
       main=NULL,
@@ -358,10 +358,10 @@ plotSmoothLine <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, 
       cex=1,
       lwd=1)
 
-    box(col = thillux_grey, bty="l")
-    title(main=mainTitle, col=thillux_grey, xlab=xTitle, ylab=yTitle)
-    axis(1, col="#00000000", col.axis = thillux_grey, col.ticks = thillux_grey)
-    axis(2, col="#00000000", col.axis = thillux_grey, col.ticks = thillux_grey)
+    box(col = thillux_grey[1], bty="l")
+    title(main=mainTitle, col=thillux_grey[1], xlab=xTitle, ylab=yTitle)
+    axis(1, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
+    axis(2, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
 
     noOut <- dev.off()
 }
@@ -398,39 +398,39 @@ plotWithConfidence <- function(xData, yData, e, mainTitle=NULL, xTitle=NULL, yTi
     u <- par("usr")
     rect(u[1], u[3], u[2], u[4], col = bgColor, border = FALSE)
 
-    par(col.lab=thillux_grey)
+    par(col.lab=thillux_grey[1])
 
-    grid(col=thillux_grey, lty=3, lwd=0.5)
+    grid(col=thillux_grey[1], lty=3, lwd=0.5)
 
     par(new=TRUE)
 
     widthToInch = 96.0
     arrowLength = diff(range(xData))/20.0
 
-    rect(xData-arrowLength,y-e,xData+arrowLength,y+e,col=color, border=FALSE)
+    rect(xData-arrowLength,y-e,xData+arrowLength,y+e, col=colorScheme[1,2], border=FALSE)
 
     arrowTipLength = pmin(e/2.0, arrowLength/3.0)
 
-    segments(xData-arrowLength, y-e, xData-arrowLength, y-e+arrowTipLength, lend=1, col="#E7746F")
-    segments(xData-arrowLength, y+e, xData-arrowLength, y+e-arrowTipLength, lend=1, col="#E7746F")
-    segments(xData+arrowLength, y-e, xData+arrowLength, y-e+arrowTipLength, lend=1, col="#E7746F")
-    segments(xData+arrowLength, y+e, xData+arrowLength, y+e-arrowTipLength, lend=1, col="#E7746F")
+    segments(xData-arrowLength, y-e, xData-arrowLength, y-e+arrowTipLength, lend=1, col=colorScheme[1,1])
+    segments(xData-arrowLength, y+e, xData-arrowLength, y+e-arrowTipLength, lend=1, col=colorScheme[1,1])
+    segments(xData+arrowLength, y-e, xData+arrowLength, y-e+arrowTipLength, lend=1, col=colorScheme[1,1])
+    segments(xData+arrowLength, y+e, xData+arrowLength, y+e-arrowTipLength, lend=1, col=colorScheme[1,1])
 
-    segments(xData-arrowLength, y-e, xData+arrowLength, y-e, lend=1, col="#E7746F")
-    segments(xData-arrowLength, y+e, xData+arrowLength, y+e, lend=1, col="#E7746F")
+    segments(xData-arrowLength, y-e, xData+arrowLength, y-e, lend=1, col=colorScheme[1,1])
+    segments(xData-arrowLength, y+e, xData+arrowLength, y+e, lend=1, col=colorScheme[1,1])
 
-    segments(xData, y-arrowTipLength, xData, y+arrowTipLength, lend=1, col="#E7746F")
+    segments(xData, y-arrowTipLength, xData, y+arrowTipLength, lend=1, col=colorScheme[1,1])
 
-    segments(xData-arrowLength/2.0,yData, xData+arrowLength/2.0,yData, col="#E7746F")
+    segments(xData-arrowLength/2.0,yData, xData+arrowLength/2.0,yData, col=colorScheme[1,1])
 
     frame <- data.frame(xData,yData)
     frame <- frame[order(xData),]
-    lines(frame$xData, frame$yData, col=color,lty=2)
+    lines(frame$xData, frame$yData, col=colorScheme[1,2],lty=2)
 
-    box(col = thillux_grey, bty="l")
-    title(main=mainTitle, col=thillux_grey, xlab=xTitle, ylab=yTitle)
-    axis(1, col="#00000000", col.axis = thillux_grey, col.ticks = thillux_grey)
-    axis(2, col="#00000000", col.axis = thillux_grey, col.ticks = thillux_grey)
+    box(col = thillux_grey[1], bty="l")
+    title(main=mainTitle, col=thillux_grey[1], xlab=xTitle, ylab=yTitle)
+    axis(1, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
+    axis(2, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
 
     noOut <- dev.off()
 }
