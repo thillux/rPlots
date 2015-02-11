@@ -1,10 +1,10 @@
 ########################################
 # colors for plots
 
-thillux_grey <- c("#383838", "#383838AF")
-thillux_green <- c("#4ACAA8", "#4ACAA85F")
-thillux_red <- c("#E7746F", "#E7746F5F")
-thillux_blue <- c("#0E94EC", "#0E94EC5F")
+thillux_grey <- c("#383838", "#3838383F")
+thillux_green <- c("#4ACAA8", "#4ACAA83F")
+thillux_red <- c("#E7746F", "#E7746F3F")
+thillux_blue <- c("#0E94EC", "#0E94EC3F")
 
 bgColor <- "#2D2D2D0F"
 
