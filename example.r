@@ -33,12 +33,12 @@ doConfidenceContinous <- function() {
 
     outMean <- tapply(y, x, mean)
     outSD <- tapply(y, x, sd)
-    out <- data.frame(x=names(outMean), mean=outMean, sd=outSD, row.names=NULL)
+    out <- data.frame(x = names(outMean), mean = outMean, sd = outSD, row.names = NULL)
 
-    confLevel <- 0.995
+    confLevel <- 0.99
     numReplications <- 32
 
-    plotWithConfidenceContinous(x1, out$mean, 10.0 * qnorm(confLevel)*out$sd/sqrt(numReplications), pdfFile="confContinous.pdf")
+    plotWithConfidenceContinous(x1, out$mean, 10.0 * qnorm(1.0 - (1.0 - confLevel)/2.0) * out$sd/sqrt(numReplications), pdfFile = "confContinous.pdf")
 }
 
 doConfidence()

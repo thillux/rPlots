@@ -1,5 +1,19 @@
 source("colors.r")
 
+#
+# OUTLINE
+#
+
+# every plot function in this file makes IMHO nice formatted plots in four steps
+
+# 1. Plot an empty plot, to inform R about ranges of data (grid needs this)
+# 2. Plot background and grid
+# 3. Plot data
+# 4. Plot axes, box and titles
+
+################################################################################
+
+# Helper function for leaving out unused margins
 doMargins <- function(mainTitle, xTitle, yTitle) {
   margins <- par()$mar
     if(is.null(mainTitle)) {
@@ -17,6 +31,7 @@ doMargins <- function(mainTitle, xTitle, yTitle) {
 
 ################################################################################
 
+# Helper function for plotting axes and title on top of plot
 doBoxTitleAndAxes <- function(mainTitle, xTitle, yTitle) {
   box(col = thillux_grey[1], bty="l")
   title(main=mainTitle, col=thillux_grey[1], xlab=xTitle, ylab=yTitle)
@@ -26,6 +41,7 @@ doBoxTitleAndAxes <- function(mainTitle, xTitle, yTitle) {
 
 ################################################################################
 
+# Helper function for creating PDF devices
 doOpenPDF <- function(pdfFile, pdfTitle) {
   pdfFilePath = "out.pdf"
   if(!is.null(pdfFile)) {
@@ -36,6 +52,7 @@ doOpenPDF <- function(pdfFile, pdfTitle) {
 
 ################################################################################
 
+# Helper function for plotting background and grid, before plotting on top of it
 doPlotBackgroundAndGrid <- function() {
   u <- par("usr")
   rect(u[1], u[3], u[2], u[4], col = bgColor, border = FALSE)
