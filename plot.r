@@ -289,8 +289,10 @@ plotWithConfidence <- function(xData, yData, e, mainTitle=NULL, xTitle=NULL, yTi
     doOpenPDF(pdfFile, pdfTitle)
     doMargins(mainTitle, xTitle, yTitle)
 
-    xLim <- range(xData) + c(-0.1,0.1)
-    yLim <- range(c(yData+e,yData-e)) + c(-0.1,0.1)
+    deltaX <- abs(diff(range(xData))) / 15.0
+    deltaY <- abs(diff(range(c(yData+e,yData-e)))) / 15.0
+    xLim <- range(xData) + c(-deltaX, deltaX)
+    yLim <- range(c(yData+e,yData-e)) + c(-deltaY, deltaY)
 
     plot(xData, yData, ann=FALSE, type="n", bty="n", axes=FALSE, ylab='',
     xlab='',
@@ -302,12 +304,10 @@ plotWithConfidence <- function(xData, yData, e, mainTitle=NULL, xTitle=NULL, yTi
 
     par(new=TRUE)
 
-    widthToInch = 96.0
-    arrowLength = diff(range(xData))/25.0
+    arrowLength <- abs(diff(range(xData)))/25.0
+    arrowTipLength <- abs(diff(range(yData)))/50.0
 
     rect(xData - arrowLength, yData - e, xData + arrowLength, yData + e, col=colorScheme[1,2], border=FALSE)
-
-    arrowTipLength = pmin(e/2.0, arrowLength/3.0)
 
     segments(xData - arrowLength, yData - e, xData + arrowLength, yData - e, lend=1, col=colorScheme[1,1])
     segments(xData - arrowLength, yData + e, xData + arrowLength, yData + e, lend=1, col=colorScheme[1,1])
@@ -321,40 +321,42 @@ plotWithConfidence <- function(xData, yData, e, mainTitle=NULL, xTitle=NULL, yTi
     }
 
     # draw circle outlines
-    r <- pmin(e/2.0, arrowLength/5.0)
+    rVert <- pmin(e/2.0, arrowTipLength)
+    rHor <- arrowLength/5.0
+
     for (i in 1 : length(xData)) {
       mid1X <- xData[i] - arrowLength
-      mid1Y <- yData[i] + e[i] - r[i]
+      mid1Y <- yData[i] + e[i] - rVert[i]
 
       mid2X <- xData[i] - arrowLength
-      mid2Y <- yData[i] - e[i] + r[i]
+      mid2Y <- yData[i] - e[i] + rVert[i]
 
       mid3X <- xData[i] + arrowLength
-      mid3Y <- yData[i] + e[i] - r[i]
+      mid3Y <- yData[i] + e[i] - rVert[i]
 
       mid4X <- xData[i] + arrowLength
-      mid4Y <- yData[i] - e[i] + r[i]
+      mid4Y <- yData[i] - e[i] + rVert[i]
 
       deg <- 90 : 180
-      xCircle1 <- mid1X + r[i] * cos(deg/180.0 * pi)
-      yCircle1 <- mid1Y + r[i] * sin(deg/180.0 * pi)
+      xCircle1 <- mid1X + rHor * cos(deg/180.0 * pi)
+      yCircle1 <- mid1Y + rVert[i] * sin(deg/180.0 * pi)
       lines(xCircle1, yCircle1, col=colorScheme[1,1])
 
       deg <- 180 : 270
-      xCircle2 <- mid2X + r[i] * cos(deg/180.0 * pi)
-      yCircle2 <- mid2Y + r[i] * sin(deg/180.0 * pi)
+      xCircle2 <- mid2X + rHor * cos(deg/180.0 * pi)
+      yCircle2 <- mid2Y + rVert[i] * sin(deg/180.0 * pi)
       lines(xCircle2, yCircle2, col=colorScheme[1,1])
 
       polygon(c(xCircle1, xCircle2), c(yCircle1, yCircle2), col = colorScheme[1,2], border = FALSE)
 
       deg <- 0 : 90
-      xCircle3 <- mid3X + r[i] * cos(deg/180.0 * pi)
-      yCircle3 <- mid3Y + r[i] * sin(deg/180.0 * pi)
+      xCircle3 <- mid3X + rHor * cos(deg/180.0 * pi)
+      yCircle3 <- mid3Y + rVert[i] * sin(deg/180.0 * pi)
       lines(xCircle3, yCircle3, col=colorScheme[1,1])
 
       deg <- 270 : 360
-      xCircle4 <- mid4X + r[i] * cos(deg/180.0 * pi)
-      yCircle4 <- mid4Y + r[i] * sin(deg/180.0 * pi)
+      xCircle4 <- mid4X + rHor * cos(deg/180.0 * pi)
+      yCircle4 <- mid4Y + rVert[i] * sin(deg/180.0 * pi)
       lines(xCircle4, yCircle4, col=colorScheme[1,1])
 
       polygon(c(xCircle3, xCircle4), c(yCircle3, yCircle4), col = colorScheme[1,2], border = FALSE)
@@ -371,8 +373,10 @@ plotWithConfidenceContinous <- function(xData, yData, e, mainTitle=NULL, xTitle=
     doOpenPDF(pdfFile, pdfTitle)
     doMargins(mainTitle, xTitle, yTitle)
 
-    xLim <- range(xData) + c(-0.1,0.1)
-    yLim <- range(c(yData + e, yData - e)) + c(-0.1,0.1)
+    deltaX <- abs(diff(range(xData))) / 15.0
+    deltaY <- abs(diff(range(c(yData+e,yData-e)))) / 15.0
+    xLim <- range(xData) + c(-deltaX, deltaX)
+    yLim <- range(c(yData+e,yData-e)) + c(-deltaY, deltaY)
 
     plot(xData, yData, ann=FALSE, type="n", bty="n", axes=FALSE, ylab='',
     xlab='',
@@ -426,6 +430,31 @@ plotBox <- function(xData, yData, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfF
       pch=21,
       cex=1,
       lwd=1)
+
+    doBoxTitleAndAxes(mainTitle, xTitle, yTitle)
+
+    noOut <- dev.off()
+}
+
+################################################################################
+
+plotDensity <- function(xData, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfFile=NULL, pdfTitle="thillux plot", connectionLines=FALSE) {
+    doOpenPDF(pdfFile, pdfTitle)
+    doMargins(mainTitle, xTitle, yTitle)
+
+    d <- density(xData)
+
+    plot(d, ann=FALSE, type="n", bty="n", axes=FALSE, ylab='',
+    xlab='',
+    main='')
+
+    doPlotBackgroundAndGrid()
+
+    par(new=TRUE)
+
+    plot(d$x, d$y, type="l", col=colorScheme[1,1])
+
+    polygon(d$x, d$y, col=colorScheme[1,2], border=FALSE)
 
     doBoxTitleAndAxes(mainTitle, xTitle, yTitle)
 
