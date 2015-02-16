@@ -32,10 +32,10 @@ doMargins <- function(mainTitle, xTitle, yTitle) {
 ################################################################################
 
 # Helper function for plotting axes and title on top of plot
-doBoxTitleAndAxes <- function(mainTitle, xTitle, yTitle) {
+doBoxTitleAndAxes <- function(mainTitle, xTitle, yTitle, xLabels=NULL, yLabels=NULL) {
   box(col = thillux_grey[1], bty="l")
   title(main=mainTitle, col=thillux_grey[1], xlab=xTitle, ylab=yTitle)
-  axis(1, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
+  axis(1, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1], labels=xLabels)
   axis(2, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
 }
 
@@ -62,7 +62,13 @@ doPlotBackgroundAndGrid <- function() {
 
 ################################################################################
 
-plotHistogram <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfFile=NULL, pdfTitle="thillux plot", breaks = 10) {
+plotHistogram <- function(dataArray,
+    mainTitle=NULL,
+    xTitle=NULL,
+    yTitle=NULL,
+    pdfFile=NULL,
+    pdfTitle="thillux plot",
+    breaks = 10) {
     doOpenPDF(pdfFile, pdfTitle)
     doMargins(mainTitle, xTitle, yTitle)
 
@@ -75,14 +81,15 @@ plotHistogram <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=NULL, p
     hist(dataArray,
       add=TRUE,
       axes=FALSE,
-      col=colorScheme[1,2],
       border=colorScheme[1,1],
-      ylab='',
-      xlab='',
-      main='',
       breaks=breaks,
+      cex=1,
+      col=colorScheme[1,2],
       lty=1,
-      cex=1)
+      main='',
+      xlab='',
+      ylab=''
+    )
 
     doBoxTitleAndAxes(mainTitle, xTitle, yTitle)
 
@@ -91,7 +98,13 @@ plotHistogram <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=NULL, p
 
 ########################################
 
-plotHistogramNormal <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfFile=NULL, pdfTitle="thillux plot", breaks = 10) {
+plotHistogramNormal <- function(dataArray,
+    mainTitle=NULL,
+    xTitle=NULL,
+    yTitle=NULL,
+    pdfFile=NULL,
+    pdfTitle="thillux plot",
+    breaks = 10) {
     doOpenPDF(pdfFile, pdfTitle)
     doMargins(mainTitle, xTitle, yTitle)
 
@@ -121,14 +134,14 @@ plotHistogramNormal <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=N
     par(new=TRUE)
 
     plot(x,y,
-         type="l",
-         lwd=3,
          axes=FALSE,
          col=colorScheme[2,2],
-         xlim = c(min(h$mids) * 0.9, max(h$mids) * 1.1),
-         ylab='',
+         lwd=3,
+         main='',
+         type="l",
          xlab='',
-         main=''
+         xlim = c(min(h$mids) * 0.9, max(h$mids) * 1.1),
+         ylab=''
     )
 
     polygon(x, y,
@@ -146,7 +159,12 @@ plotHistogramNormal <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=N
 
 ########################################
 
-plotQQNormal <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfFile=NULL, pdfTitle="thillux plot") {
+plotQQNormal <- function(dataArray,
+    mainTitle=NULL,
+    xTitle=NULL,
+    yTitle=NULL,
+    pdfFile=NULL,
+    pdfTitle="thillux plot") {
     doOpenPDF(pdfFile, pdfTitle)
     doMargins(mainTitle, xTitle, yTitle)
 
@@ -166,17 +184,18 @@ plotQQNormal <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pd
       xlab='')
 
     plot(qq$x, qq$y,
-      type="b",
       axes=FALSE,
-      col=colorScheme[1,2],
       bg=colorScheme[1,1],
-      ylab='',
-      xlab='',
-      main=NULL,
-      lty=1,
-      pch=21,
       cex=1,
-      lwd=1)
+      col=colorScheme[1,2],
+      lty=1,
+      lwd=1,
+      main=NULL,
+      pch=21,
+      type="b",
+      xlab='',
+      ylab=''
+    )
 
     doBoxTitleAndAxes(mainTitle, xTitle, yTitle)
 
@@ -185,7 +204,12 @@ plotQQNormal <- function(dataArray, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pd
 
 ########################################
 
-plotQQ <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfFile=NULL, pdfTitle="thillux plot") {
+plotQQ <- function(dataArray1, dataArray2,
+    mainTitle=NULL,
+    xTitle=NULL,
+    yTitle=NULL,
+    pdfFile=NULL,
+    pdfTitle="thillux plot") {
     doOpenPDF(pdfFile, pdfTitle)
     doMargins(mainTitle, xTitle, yTitle)
 
@@ -202,17 +226,18 @@ plotQQ <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, yTitle=N
       xlab='')
 
     plot(qq$x, qq$y,
-      type="b",
       axes=FALSE,
-      col=colorScheme[1,2],
       bg=colorScheme[1,1],
-      ylab='',
-      xlab='',
-      main=NULL,
-      lty=1,
-      pch=21,
       cex=1,
-      lwd=1)
+      col=colorScheme[1,2],
+      lty=1,
+      lwd=1,
+      main=NULL,
+      pch=21,
+      type="b",
+      xlab='',
+      ylab=''
+    )
 
     doBoxTitleAndAxes(mainTitle, xTitle, yTitle)
 
@@ -221,7 +246,12 @@ plotQQ <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, yTitle=N
 
 ########################################
 
-plotPoints <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfFile=NULL, pdfTitle="thillux plot") {
+plotPoints <- function(dataArray1, dataArray2,
+    mainTitle=NULL,
+    xTitle=NULL,
+    yTitle=NULL,
+    pdfFile=NULL,
+    pdfTitle="thillux plot") {
     doOpenPDF(pdfFile, pdfTitle)
     doMargins(mainTitle, xTitle, yTitle)
 
@@ -234,17 +264,18 @@ plotPoints <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, yTit
     par(new=TRUE)
 
     plot(dataArray1, dataArray2,
-      type="p",
       axes=FALSE,
-      col=colorScheme[1,2],
       bg=colorScheme[1,1],
-      ylab='',
-      xlab='',
-      main=NULL,
-      lty=1,
-      pch=21,
       cex=1,
-      lwd=1)
+      col=colorScheme[1,2],
+      lty=1,
+      lwd=1,
+      main=NULL,
+      pch=21,
+      type="p",
+      xlab='',
+      ylab=''
+    )
 
     doBoxTitleAndAxes(mainTitle, xTitle, yTitle)
 
@@ -253,7 +284,12 @@ plotPoints <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, yTit
 
 ########################################
 
-plotSmoothLine <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfFile=NULL, pdfTitle="thillux plot") {
+plotSmoothLine <- function(dataArray1, dataArray2,
+    mainTitle=NULL,
+    xTitle=NULL,
+    yTitle=NULL,
+    pdfFile=NULL,
+    pdfTitle="thillux plot") {
     doOpenPDF(pdfFile, pdfTitle)
     doMargins(mainTitle, xTitle, yTitle)
 
@@ -266,17 +302,18 @@ plotSmoothLine <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, 
     par(new=TRUE)
 
     plot(smooth.spline(dataArray1, dataArray2),
-      type="l",
       axes=FALSE,
-      col=colorScheme[1,2],
       bg=colorScheme[1,1],
-      ylab='',
-      xlab='',
-      main=NULL,
-      lty=1,
-      pch=21,
       cex=1,
-      lwd=1)
+      col=colorScheme[1,2],
+      lty=1,
+      lwd=1,
+      main=NULL,
+      pch=21,
+      type="l",
+      xlab='',
+      ylab=''
+    )
 
     doBoxTitleAndAxes(mainTitle, xTitle, yTitle)
 
@@ -285,29 +322,41 @@ plotSmoothLine <- function(dataArray1, dataArray2, mainTitle=NULL, xTitle=NULL, 
 
 ################################################################################
 
-plotWithConfidence <- function(xData, yData, e, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfFile=NULL, pdfTitle="thillux plot", connectionLines=FALSE) {
+plotWithConfidence <- function(xData, yData, e,
+    mainTitle=NULL,
+    xTitle=NULL,
+    yTitle=NULL,
+    pdfFile=NULL,
+    pdfTitle="thillux plot",
+    connectionLines=FALSE) {
     doOpenPDF(pdfFile, pdfTitle)
     doMargins(mainTitle, xTitle, yTitle)
 
-    xLim <- range(xData) + c(-0.1,0.1)
-    yLim <- range(c(yData+e,yData-e)) + c(-0.1,0.1)
+    deltaX <- abs(diff(range(xData))) / 15.0
+    deltaY <- abs(diff(range(c(yData+e,yData-e)))) / 15.0
+    xLim <- range(xData) + c(-deltaX, deltaX)
+    yLim <- range(c(yData+e,yData-e)) + c(-deltaY, deltaY)
 
-    plot(xData, yData, ann=FALSE, type="n", bty="n", axes=FALSE, ylab='',
-    xlab='',
-    main='',
-    xlim=xLim,
-    ylim=yLim)
+    plot(xData, yData,
+      ann=FALSE,
+      axes=FALSE,
+      bty="n",
+      main='',
+      type="n",
+      xlab='',
+      xlim=xLim,
+      ylab='',
+      ylim=yLim
+    )
 
     doPlotBackgroundAndGrid()
 
     par(new=TRUE)
 
-    widthToInch = 96.0
-    arrowLength = diff(range(xData))/25.0
+    arrowLength <- abs(diff(range(xData)))/25.0
+    arrowTipLength <- abs(diff(range(yData)))/50.0
 
     rect(xData - arrowLength, yData - e, xData + arrowLength, yData + e, col=colorScheme[1,2], border=FALSE)
-
-    arrowTipLength = pmin(e/2.0, arrowLength/3.0)
 
     segments(xData - arrowLength, yData - e, xData + arrowLength, yData - e, lend=1, col=colorScheme[1,1])
     segments(xData - arrowLength, yData + e, xData + arrowLength, yData + e, lend=1, col=colorScheme[1,1])
@@ -321,40 +370,42 @@ plotWithConfidence <- function(xData, yData, e, mainTitle=NULL, xTitle=NULL, yTi
     }
 
     # draw circle outlines
-    r <- pmin(e/2.0, arrowLength/5.0)
+    rVert <- pmin(e/2.0, arrowTipLength)
+    rHor <- arrowLength/5.0
+
     for (i in 1 : length(xData)) {
       mid1X <- xData[i] - arrowLength
-      mid1Y <- yData[i] + e[i] - r[i]
+      mid1Y <- yData[i] + e[i] - rVert[i]
 
       mid2X <- xData[i] - arrowLength
-      mid2Y <- yData[i] - e[i] + r[i]
+      mid2Y <- yData[i] - e[i] + rVert[i]
 
       mid3X <- xData[i] + arrowLength
-      mid3Y <- yData[i] + e[i] - r[i]
+      mid3Y <- yData[i] + e[i] - rVert[i]
 
       mid4X <- xData[i] + arrowLength
-      mid4Y <- yData[i] - e[i] + r[i]
+      mid4Y <- yData[i] - e[i] + rVert[i]
 
       deg <- 90 : 180
-      xCircle1 <- mid1X + r[i] * cos(deg/180.0 * pi)
-      yCircle1 <- mid1Y + r[i] * sin(deg/180.0 * pi)
+      xCircle1 <- mid1X + rHor * cos(deg/180.0 * pi)
+      yCircle1 <- mid1Y + rVert[i] * sin(deg/180.0 * pi)
       lines(xCircle1, yCircle1, col=colorScheme[1,1])
 
       deg <- 180 : 270
-      xCircle2 <- mid2X + r[i] * cos(deg/180.0 * pi)
-      yCircle2 <- mid2Y + r[i] * sin(deg/180.0 * pi)
+      xCircle2 <- mid2X + rHor * cos(deg/180.0 * pi)
+      yCircle2 <- mid2Y + rVert[i] * sin(deg/180.0 * pi)
       lines(xCircle2, yCircle2, col=colorScheme[1,1])
 
       polygon(c(xCircle1, xCircle2), c(yCircle1, yCircle2), col = colorScheme[1,2], border = FALSE)
 
       deg <- 0 : 90
-      xCircle3 <- mid3X + r[i] * cos(deg/180.0 * pi)
-      yCircle3 <- mid3Y + r[i] * sin(deg/180.0 * pi)
+      xCircle3 <- mid3X + rHor * cos(deg/180.0 * pi)
+      yCircle3 <- mid3Y + rVert[i] * sin(deg/180.0 * pi)
       lines(xCircle3, yCircle3, col=colorScheme[1,1])
 
       deg <- 270 : 360
-      xCircle4 <- mid4X + r[i] * cos(deg/180.0 * pi)
-      yCircle4 <- mid4Y + r[i] * sin(deg/180.0 * pi)
+      xCircle4 <- mid4X + rHor * cos(deg/180.0 * pi)
+      yCircle4 <- mid4Y + rVert[i] * sin(deg/180.0 * pi)
       lines(xCircle4, yCircle4, col=colorScheme[1,1])
 
       polygon(c(xCircle3, xCircle4), c(yCircle3, yCircle4), col = colorScheme[1,2], border = FALSE)
@@ -367,18 +418,32 @@ plotWithConfidence <- function(xData, yData, e, mainTitle=NULL, xTitle=NULL, yTi
 
 ################################################################################
 
-plotWithConfidenceContinous <- function(xData, yData, e, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfFile=NULL, pdfTitle="thillux plot", connectionLines=FALSE) {
+plotWithConfidenceContinous <- function(xData, yData, e,
+    mainTitle=NULL,
+    xTitle=NULL,
+    yTitle=NULL,
+    pdfFile=NULL,
+    pdfTitle="thillux plot",
+    connectionLines=FALSE) {
     doOpenPDF(pdfFile, pdfTitle)
     doMargins(mainTitle, xTitle, yTitle)
 
-    xLim <- range(xData) + c(-0.1,0.1)
-    yLim <- range(c(yData + e, yData - e)) + c(-0.1,0.1)
+    deltaX <- abs(diff(range(xData))) / 15.0
+    deltaY <- abs(diff(range(c(yData+e,yData-e)))) / 15.0
+    xLim <- range(xData) + c(-deltaX, deltaX)
+    yLim <- range(c(yData+e,yData-e)) + c(-deltaY, deltaY)
 
-    plot(xData, yData, ann=FALSE, type="n", bty="n", axes=FALSE, ylab='',
-    xlab='',
-    main='',
-    xlim=xLim,
-    ylim=yLim)
+    plot(xData, yData,
+      ann=FALSE,
+      axes=FALSE,
+      bty="n",
+      main='',
+      type="n",
+      xlab='',
+      xlim=xLim,
+      ylab='',
+      ylim=yLim
+    )
 
     doPlotBackgroundAndGrid()
 
@@ -398,34 +463,110 @@ plotWithConfidenceContinous <- function(xData, yData, e, mainTitle=NULL, xTitle=
 
 ################################################################################
 
-plotBox <- function(xData, yData, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfFile=NULL, pdfTitle="thillux plot", breaks=10) {
+plotBox <- function(xData, yData,
+                    mainTitle=NULL,
+                    xTitle=NULL,
+                    yTitle=NULL,
+                    pdfFile=NULL,
+                    pdfTitle="thillux plot") {
     doOpenPDF(pdfFile, pdfTitle)
     doMargins(mainTitle, xTitle, yTitle)
 
-    plot(cut(xData, breaks=breaks), yData, ann=FALSE, type="n", bty="n", axes=FALSE, ylab='',
+    plot(xData, yData,
+      ann=FALSE,
+      axes=FALSE,
+      bty="n",
+      main='',
+      type="n",
       xlab='',
-      col="#00000000",
-      border="#00000000",
-      bg="#00000000",
-      main='')
+      ylab=''
+    )
+
+    doPlotBackgroundAndGrid()
+
+    boxplot(yData ~ xData,
+      add=T,
+      at=xData[1],
+      axes=F,
+      border=colorScheme[1,1],
+      col=colorScheme[1,2],
+      xlim=range(xData),
+      ylim=range(yData)
+    )
+
+    doBoxTitleAndAxes(mainTitle, xTitle, yTitle)
+
+    noOut <- dev.off()
+}
+
+################################################################################
+
+plotBoxes <- function(xData, yData, mainTitle=NULL,
+                      xTitle=NULL,
+                      yTitle=NULL,
+                      pdfFile=NULL,
+                      pdfTitle="thillux plot",
+                      breaks=10) {
+    doOpenPDF(pdfFile, pdfTitle)
+    doMargins(mainTitle, xTitle, yTitle)
+
+    stopifnot(breaks > 1)
+
+    seqTwice <- seq(from=min(xData), to=max(xData), length=2 * breaks + 1)
+    cutLabels <- seqTwice[seq(from=2, to=2 * breaks + 1, by=2)]
+    cuttedData <- as.numeric(cut(xData, breaks=breaks, labels=cutLabels))
+    cutLabels <- cutLabels[sort(unique(cuttedData))]
+
+    plot(cuttedData, yData,
+      ann=FALSE,
+      axes=FALSE,
+      bty="n",
+      main='',
+      type="n",
+      xlab='',
+      xlim=range(xData),
+      ylab='',
+      ylim=range(yData)
+    )
+
+    doPlotBackgroundAndGrid()
+
+    boxplot(yData ~ cuttedData,
+      add=T,
+      at=cutLabels,
+      axes=F,
+      border=colorScheme[1,1],
+      boxwex=abs(diff(range(xData))) / (breaks^1.2),
+      col=colorScheme[1,2],
+      names=sprintf("%2.2f", cutLabels),
+      xlim=range(xData),
+      ylim=range(yData)
+    )
+
+    doBoxTitleAndAxes(mainTitle, xTitle, yTitle)
+
+    noOut <- dev.off()
+}
+
+################################################################################
+
+plotDensity <- function(xData, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfFile=NULL, pdfTitle="thillux plot", connectionLines=FALSE) {
+    doOpenPDF(pdfFile, pdfTitle)
+    doMargins(mainTitle, xTitle, yTitle)
+
+    d <- density(xData)
+
+    plot(d, ann=FALSE, type="n", bty="n", axes=FALSE, ylab='',
+    xlab='',
+    main='')
 
     doPlotBackgroundAndGrid()
 
     par(new=TRUE)
 
-    plot(cut(xData, breaks=breaks), yData,
-      type="l",
-      axes=FALSE,
-      col=thillux_grey[2],
-      bg=colorScheme[1,2],
-      border=colorScheme[1,1],
-      ylab='',
-      xlab='',
-      main=NULL,
-      lty=1,
-      pch=21,
-      cex=1,
-      lwd=1)
+    plot(d$x, d$y, type="l", col=colorScheme[1,1], xlab="", ylab="", main="")
+
+    polygon(d$x, d$y, col=colorScheme[1,2], border=FALSE)
 
     doBoxTitleAndAxes(mainTitle, xTitle, yTitle)
 
