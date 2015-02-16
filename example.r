@@ -17,7 +17,7 @@ doBoxPlot <- function() {
     x <- rnorm(numPoints)
     y <- rnorm(numPoints)
 
-    plotBox(x, y, pdfFile="box.pdf")
+    plotBoxes(x, y, pdfFile="box.pdf")
 }
 
 doConfidenceContinous <- function() {
@@ -41,6 +41,6 @@ doConfidenceContinous <- function() {
     plotWithConfidenceContinous(x1, out$mean, 10.0 * qnorm(1.0 - (1.0 - confLevel)/2.0) * out$sd/sqrt(numReplications), pdfFile = "confContinous.pdf")
 }
 
-doConfidence()
 doBoxPlot()
+doConfidence()
 doConfidenceContinous()
