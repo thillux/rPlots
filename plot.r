@@ -574,3 +574,28 @@ plotDensity <- function(xData, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfFile
 }
 
 ################################################################################
+
+plotDensity <- function(xData, mainTitle=NULL, xTitle=NULL, yTitle=NULL, pdfFile=NULL, pdfTitle="thillux plot", connectionLines=FALSE) {
+    doOpenPDF(pdfFile, pdfTitle)
+    doMargins(mainTitle, xTitle, yTitle)
+
+    d <- density(xData)
+
+    plot(d, ann=FALSE, type="n", bty="n", axes=FALSE, ylab='',
+    xlab='',
+    main='')
+
+    doPlotBackgroundAndGrid()
+
+    par(new=TRUE)
+
+    plot(d$x, d$y, type="l", col=colorScheme[1,1])
+
+    polygon(d$x, d$y, col=colorScheme[1,2], border=FALSE)
+
+    doBoxTitleAndAxes(mainTitle, xTitle, yTitle)
+
+    noOut <- dev.off()
+}
+
+################################################################################
