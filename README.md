@@ -5,7 +5,11 @@
 little scripts to make IMHO nice looking plots :)
 
 # Example
-![example picture of plot](example.png)
+![example picture of plot](example_images/box.png)
+![example picture of plot](example_images/conf.png)
+![example picture of plot](example_images/confCategorial.png)
+![example picture of plot](example_images/confCategorial2.png)
+![example picture of plot](example_images/confContinous.png)
 
 created from 
 ```
