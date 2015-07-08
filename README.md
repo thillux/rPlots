@@ -4,8 +4,15 @@
 
 little scripts to make IMHO nice looking plots :)
 
-# example
+# Example
 ![example picture of plot](example.png)
+
+created from 
+```
+"mobile 50" 10 3
+"mobile 100" 40 4
+"mobile 2" 4 8
+```
 
 ## Todo
 
