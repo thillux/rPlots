@@ -32,10 +32,10 @@ doMargins <- function(mainTitle, xTitle, yTitle) {
 ################################################################################
 
 # Helper function for plotting axes and title on top of plot
-doBoxTitleAndAxes <- function(mainTitle, xTitle, yTitle, xLabels=NULL, yLabels=NULL) {
+doBoxTitleAndAxes <- function(mainTitle, xTitle, yTitle, xData=NULL, xLabels=NULL, yLabels=NULL) {
   box(col = thillux_grey[1], bty="l")
   title(main=mainTitle, col=thillux_grey[1], xlab=xTitle, ylab=yTitle)
-  axis(1, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1], labels=xLabels)
+  axis(1, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1], labels=xLabels, at=xData)
   axis(2, col="#00000000", col.axis = thillux_grey[1], col.ticks = thillux_grey[1])
 }
 
@@ -328,9 +328,15 @@ plotWithConfidence <- function(xData, yData, e,
     yTitle=NULL,
     pdfFile=NULL,
     pdfTitle="thillux plot",
+    xDataIsCategorial=FALSE,
     connectionLines=FALSE) {
     doOpenPDF(pdfFile, pdfTitle)
     doMargins(mainTitle, xTitle, yTitle)
+
+    if(xDataIsCategorial) {
+      xLabels <- xData
+      xData <- seq(1, length(xLabels))
+    }
 
     deltaX <- abs(diff(range(xData))) / 15.0
     deltaY <- abs(diff(range(c(yData+e,yData-e)))) / 15.0
@@ -411,7 +417,11 @@ plotWithConfidence <- function(xData, yData, e,
       polygon(c(xCircle3, xCircle4), c(yCircle3, yCircle4), col = colorScheme[1,2], border = FALSE)
     }
 
-    doBoxTitleAndAxes(mainTitle, xTitle, yTitle)
+    if(xDataIsCategorial)
+      doBoxTitleAndAxes(mainTitle, xTitle, yTitle, xLabels = xLabels, xData = xData)
+    else {
+      doBoxTitleAndAxes(mainTitle, xTitle, yTitle)
+    }
 
     noOut <- dev.off()
 }

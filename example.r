@@ -11,6 +11,13 @@ doConfidence <- function() {
     plotWithConfidence(x, y, abs(y/10.0), pdfFile="conf.pdf")
 }
 
+doConfidenceCategorial <- function() {
+    x <- c("bier", "mate", "water", "Weizen")
+    y <- rnorm(length(x))
+
+    plotWithConfidence(x, y, abs(y/10.0), pdfFile="confCategorial.pdf", xDataIsCategorial=TRUE)
+}
+
 doBoxPlot <- function() {
     numPoints <- 10000
 
@@ -43,4 +50,5 @@ doConfidenceContinous <- function() {
 
 doBoxPlot()
 doConfidence()
+doConfidenceCategorial()
 doConfidenceContinous()
