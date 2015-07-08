@@ -48,6 +48,7 @@ doOpenPDF <- function(pdfFile, pdfTitle) {
     pdfFilePath = pdfFile
   }
   pdf(pdfFilePath, pointsize=10, width=7, height=5, title = pdfTitle)
+  #png(pdfFilePath, pointsize=14, width=1050, height=750, title = pdfTitle)
 }
 
 ################################################################################
@@ -362,8 +363,6 @@ plotWithConfidence <- function(xData, yData, e,
     arrowLength <- abs(diff(range(xData)))/25.0
     arrowTipLength <- abs(diff(range(yData)))/50.0
 
-    rect(xData - arrowLength, yData - e, xData + arrowLength, yData + e, col=colorScheme[1,2], border=FALSE)
-
     segments(xData - arrowLength, yData - e, xData + arrowLength, yData - e, lend=1, col=colorScheme[1,1])
     segments(xData - arrowLength, yData + e, xData + arrowLength, yData + e, lend=1, col=colorScheme[1,1])
 
@@ -395,26 +394,27 @@ plotWithConfidence <- function(xData, yData, e,
       deg <- 90 : 180
       xCircle1 <- mid1X + rHor * cos(deg/180.0 * pi)
       yCircle1 <- mid1Y + rVert[i] * sin(deg/180.0 * pi)
-      lines(xCircle1, yCircle1, col=colorScheme[1,1])
 
       deg <- 180 : 270
       xCircle2 <- mid2X + rHor * cos(deg/180.0 * pi)
       yCircle2 <- mid2Y + rVert[i] * sin(deg/180.0 * pi)
-      lines(xCircle2, yCircle2, col=colorScheme[1,1])
-
-      polygon(c(xCircle1, xCircle2), c(yCircle1, yCircle2), col = colorScheme[1,2], border = FALSE)
 
       deg <- 0 : 90
       xCircle3 <- mid3X + rHor * cos(deg/180.0 * pi)
       yCircle3 <- mid3Y + rVert[i] * sin(deg/180.0 * pi)
-      lines(xCircle3, yCircle3, col=colorScheme[1,1])
 
       deg <- 270 : 360
       xCircle4 <- mid4X + rHor * cos(deg/180.0 * pi)
       yCircle4 <- mid4Y + rVert[i] * sin(deg/180.0 * pi)
-      lines(xCircle4, yCircle4, col=colorScheme[1,1])
 
-      polygon(c(xCircle3, xCircle4), c(yCircle3, yCircle4), col = colorScheme[1,2], border = FALSE)
+      aboveX <- c(rev(xCircle1), xData[i] - arrowLength, xData[i] + arrowLength, rev(xCircle3))
+      aboveY <- c(rev(yCircle1), yData[i] + e[i], yData[i] + e[i], rev(yCircle3))
+      belowX <- c(rev(xCircle4), xData[i] + arrowLength, xData[i] - arrowLength, rev(xCircle2))
+      belowY <- c(rev(yCircle4), yData[i] - e[i], yData[i] - e[i], rev(yCircle2))
+
+      lines(aboveX, aboveY, col=colorScheme[1,1])
+      lines(belowX, belowY, col=colorScheme[1,1])
+      polygon(c(aboveX, belowX), c(aboveY, belowY), col = colorScheme[1,2], border = FALSE)
     }
 
     if(xDataIsCategorial)

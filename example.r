@@ -12,7 +12,7 @@ doConfidence <- function() {
 }
 
 doConfidenceCategorial <- function() {
-    x <- c("bier", "mate", "water", "Weizen")
+    x <- c("Bier", "Mate", "water", "Weizen")
     y <- rnorm(length(x))
 
     plotWithConfidence(x, y, abs(y/10.0), pdfFile="confCategorial.pdf", xDataIsCategorial=TRUE)
