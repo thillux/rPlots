@@ -18,6 +18,11 @@ doConfidenceCategorial <- function() {
     plotWithConfidence(x, y, abs(y/10.0), pdfFile="confCategorial.pdf", xDataIsCategorial=TRUE)
 }
 
+doConfidenceCategorialFromFile <- function(name) {
+    a <- read.table(name)
+    plotWithConfidence(t(a[1]), t(a[2]), t(a[3]), pdfFile="confCategorial2.pdf", xDataIsCategorial=TRUE)
+}
+
 doBoxPlot <- function() {
     numPoints <- 10000
 
@@ -52,3 +57,4 @@ doBoxPlot()
 doConfidence()
 doConfidenceCategorial()
 doConfidenceContinous()
+doConfidenceCategorialFromFile("result")
