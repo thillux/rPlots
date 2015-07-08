@@ -5,7 +5,7 @@
 little scripts to make IMHO nice looking plots :)
 
 # example
-![example picture of plot](example.pdf)
+![example picture of plot](example.png)
 
 ## Todo
 
