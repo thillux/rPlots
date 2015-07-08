@@ -13,6 +13,7 @@ created from
 "mobile 100" 40 4
 "mobile 2" 4 8
 ```
+where first collum is the name, second the mean and third the confidence interval
 
 ## Todo
 
